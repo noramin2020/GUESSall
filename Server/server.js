@@ -14,7 +14,17 @@ const clientRosRest = rosRest({
    secure: false, // default false
 });
 
-clientRosRest
+// clientRosRest
+//    .print('system/resource')
+//    .then((res) => {
+//       console.log('result:', res.data);
+//    })
+//    .catch((err) => {
+//       console.log('error:', err);
+//    });
+
+app.get("/login", (req, res) => {
+   clientRosRest
    .print('system/resource')
    .then((res) => {
       console.log('result:', res.data);
@@ -22,9 +32,6 @@ clientRosRest
    .catch((err) => {
       console.log('error:', err);
    });
-
-app.get("/api", (req, res) => {
-   res.json({ "users": ["Sarip", "userTwo", "userThree"] })
 })
 
 
