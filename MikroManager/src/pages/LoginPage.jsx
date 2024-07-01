@@ -1,24 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+
 const LoginPage = () => {
+	const [host, setHost] = useState();
+	const [username, setUsername] = useState();
+	const [password, setPassword] = useState();
 
-	const [backendData, setBackendData] = useState([{}]);
-
-
-	useEffect(() => {
-		axios.get("http://localhost:5000/api")
-			.then(function (response) {
-				console.log(response);
-			})
-	}, []);	
-
-	
 	const navigate = useNavigate();
 
 	const handleSubmit = () => {
-
-		navigate('/dashboard')
+		// axios.get("/login")
+		// 	.then(({ data }) => data)
+		// 	.finally(console.log('Data'))
+		navigate('Dashboard');
 	}
 
 	return (
