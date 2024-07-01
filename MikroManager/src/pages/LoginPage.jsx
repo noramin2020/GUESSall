@@ -3,17 +3,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const LoginPage = () => {
+	const navigate = useNavigate();
 	const [host, setHost] = useState();
 	const [username, setUsername] = useState();
 	const [password, setPassword] = useState();
-
-	const navigate = useNavigate();
-
+	
+	
 	const handleSubmit = () => {
-		// axios.get("/login")
-		// 	.then(({ data }) => data)
-		// 	.finally(console.log('Data'))
-		navigate('Dashboard');
+		
 	}
 
 	return (
