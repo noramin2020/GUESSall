@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 export function DashboardPage() {
+
+
     return (
         <div>
             <NavBar />

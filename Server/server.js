@@ -38,6 +38,7 @@ app.use(bodyParser.json());
 // })
 app.post("/login", (req, res) => {
    const { host, user, password } = req.body;
+
    const clientRosRest = rosRest({
       host: host,
       user: user,
@@ -50,8 +51,10 @@ app.post("/login", (req, res) => {
       .print('system/resource')
       .then((response) => {  // Renamed to avoid confusion
          if (response.data) {
-            res.status(200).json({ message: 'Authentication successful' })
-
+            // res.status(200).json({ message: 'Authentication successful' })
+            res.send({
+               token: '5080e0c520f2c7b8e0b3679915d53155'
+            })
          } else {
             res.status(401).json({ message: 'Authentication Failed' })
          }
