@@ -22,7 +22,7 @@ const data = [
         year: '1984',
     },
 ]
-    
+
 export function UserList() {
     return (
         <div className="p-2">
@@ -31,6 +31,14 @@ export function UserList() {
                 columns={columns}
                 data={data}
             />
+        </div>
+    )
+}
+
+export function AddUser() {
+    return (
+        <div>
+            <h1 className="font-semibold" >Add user</h1>
         </div>
     )
 }
