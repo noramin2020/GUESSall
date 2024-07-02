@@ -72,8 +72,8 @@ const LoginPage = () => {
 					</div>
 				</div>
 				: <> </>}
-			<form className='flex-col border border-blue-400 pb-2 rounded-lg justify-between items-center p-5' onSubmit={handleSubmit}>
-				<h1 className="bg-customBlue rounded-t-lg p-2 mx-auto my-auto font-bold text-xl text-white tracking-wider px-28 mb-4">Guess Wi-Fi</h1>
+			<form className='flex-col shadow-md rounded-lg justify-between items-center p-5' onSubmit={handleSubmit}>
+				<h1 className="shadow-md bg-customBlue rounded-t-lg p-2 mx-auto my-auto font-bold text-xl text-white tracking-wider px-28 mb-4">Guess Wi-Fi</h1>
 				<div className='flex mt-2 justify-center'>
 					<h1> IP MikroTik </h1>
 					<input
@@ -108,7 +108,7 @@ const LoginPage = () => {
 
 				</div>
 				<div className='flex mx-auto justify-center text-center border-gray-600 mt-2 px-1'>
-					<button className='w-full px-5 py-1 text-center bg-gray-200 hover:bg-customBlue hover:text-white hover:scale-105 border  rounded-md transition duration-300 ease-in-out' type="submit">Connect</button>
+					<button className='w-full px-5 py-1 text-center transparent hover:bg-customBlue hover:text-white hover:scale-105 shadow-md rounded-md transition duration-300 ease-in-out' type="submit">Connect</button>
 				</div>
 			</form>
 		</div >
