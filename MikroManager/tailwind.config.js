@@ -6,6 +6,9 @@ export default {
       colors: {
         'customBlue': '#008BC9',
       },
+      backgroundImage: {
+        'bgGuess': "url('./src/assets/bgGuess.png')",
+      }
     },
   },
   plugins: [],

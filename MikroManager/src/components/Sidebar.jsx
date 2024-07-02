@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { faArrowDown, faCaretDown, faDashboard, faGlobe, faList, faUser, faUserAstronaut, faUserPlus, faWifi } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from 'react-router-dom';
 
 export function Sidebar() {
     const [hotspotClick, setHotspotClick] = useState(false);
@@ -19,7 +20,7 @@ export function Sidebar() {
             <div className="px-2 mt-2">
                 <ul className="space-y-4">
 
-                         {/* -----------Hotspot---------- */}
+                    {/* -----------Hotspot---------- */}
                     <li className="flex hover:bg-customBlue hover:text-white hover:rounded-md">
                         <div className="flex gap-3 justify-center items-center px-2">
                             <div>
@@ -50,7 +51,6 @@ export function Sidebar() {
                                             User List
                                         </label>
                                     </div>
-
                                 </li>
                                 <li className='flex gap-3 items-center justify-left hover:bg-customBlue hover:text-white hover:rounded-md pl-2 '>
                                     <div>

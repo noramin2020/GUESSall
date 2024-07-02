@@ -1,6 +1,6 @@
 import { NavBar } from "../components/NavBar"
 import { Sidebar } from "../components/Sidebar"
-import { UserList } from "./HotspotPage"
+import { AddUser, UserList } from "./HotspotPage"
 import { faWifi3 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -24,7 +24,7 @@ export function DashboardPage() {
                             <FontAwesomeIcon icon={faWifi3} color="white" />
                             <label className="text-white font-bold">Hotspot</label>
                         </div>
-                        <UserList />
+                        <AddUser />
                     </div>
                 </div>
             </div>

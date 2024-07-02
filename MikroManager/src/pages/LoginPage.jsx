@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Alert } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import Image from '../assets/bgGuess.png';
 
 async function loginUser(credentials) {
 	const { host, username, password } = credentials;
@@ -57,13 +58,13 @@ const LoginPage = () => {
 		} catch (error) {
 			setIsLoading(false);
 			setAlertContent(error);
-			alert( msg);
+			alert(msg);
 		}
 
 	};
 
 	return (
-		<div className="flex flex-col justify-center h-screen">
+		<div className="flex flex-col justify-center h-screen w-full items-center" style={{ backgroundImage: `url(${Image})` }}>
 			{isLoading ?
 				<div className='absolute backdrop-blur-sm h-screen w-screen'>
 					<div className='flex justify-center items-center h-full w-full'>
@@ -71,46 +72,43 @@ const LoginPage = () => {
 					</div>
 				</div>
 				: <> </>}
-			<form className='flex-col border border-blue-400 pb-2 rounded-lg justify-center mx-auto my-auto divide-y-8 divide-white divide-solid p-5' onSubmit={handleSubmit}>
+			<form className='flex-col border border-blue-400 pb-2 rounded-lg justify-between items-center p-5' onSubmit={handleSubmit}>
 				<h1 className="bg-customBlue rounded-t-lg p-2 mx-auto my-auto font-bold text-xl text-white tracking-wider px-28 mb-4">Guess Wi-Fi</h1>
-				<div className='flex'>
-					<label className=''>
-						IP MikroTik
-						<input
-							className='pl-2 ml-[45px] w-64 bg-gray-200 rounded-sm border border-[#008BC9]'
-							type="text"
-							value={host}
-							onChange={(e) => setHost(e.target.value)}
-							required
-						/>
-					</label>
+				<div className='flex mt-2 justify-center'>
+					<h1> IP MikroTik </h1>
+					<input
+						className='pl-2 ml-[45px] w-64 bg-gray-200 rounded-sm border border-[#008BC9]'
+						type="text"
+						value={host}
+						onChange={(e) => setHost(e.target.value)}
+						required
+					/>
+
 				</div>
-				<div className='flex'>
-					<label className=''>
-						Username
-						<input
-							className='pl-2 ml-[53px] w-64 bg-gray-200 rounded-sm border border-[#008BC9]'
-							type="text"
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
-							required
-						/>
-					</label>
+				<div className='flex mt-2 justify-center'>
+					<h1> Username </h1>
+					<input
+						className='pl-2 ml-[53px] w-64 bg-gray-200 rounded-sm border border-[#008BC9]'
+						type="text"
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
+						required
+					/>
+
 				</div>
-				<div className='flex'>
-					<label className=''>
-						Password
-						<input
-							className='pl-2 ml-[58px] w-64 bg-gray-200 rounded-sm border border-[#008BC9]'
-							type="password"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							required
-						/>
-					</label>
+				<div className='flex mt-2 justify-center'>
+					<h1 className=''> Password </h1>
+					<input
+						className='pl-2 ml-[58px] w-64 bg-gray-200 rounded-sm border border-[#008BC9] '
+						type="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						required
+					/>
+
 				</div>
 				<div className='flex mx-auto justify-center text-center border-gray-600 mt-2 px-1'>
-					<button className='px-5 py-1 text-center bg-gray-200 border border-customBlue hover:scale-105 hover:bg-customBlue hover:border-gray-200 hover:text-white rounded-md' type="submit">Connect</button>
+					<button className='w-full px-5 py-1 text-center bg-gray-200 hover:bg-customBlue hover:text-white hover:scale-105 border  rounded-md transition duration-300 ease-in-out' type="submit">Connect</button>
 				</div>
 			</form>
 		</div >
