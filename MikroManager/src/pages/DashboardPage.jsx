@@ -1,4 +1,5 @@
 import { NavBar } from "../components/NavBar"
+import NewSidebar from "../components/NewSidebar";
 import { Sidebar } from "../components/Sidebar"
 import { AddUser, UserList } from "./HotspotPage"
 import { faWifi3 } from "@fortawesome/free-solid-svg-icons";
@@ -14,9 +15,9 @@ export function DashboardPage() {
             <div>
                 <div className="flex space-x-2 space-y-1">
                     {/* -------SIDEBAR------- */}
-                    <div className="w-1/6">
+                    {/* <div className="w-1/7">
                         <Sidebar />
-                    </div>
+                    </div> */}
 
                     {/* ----------HOME SECTION-------- */}
                     <div className="w-5/6 border border-customBlue">
