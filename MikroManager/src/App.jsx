@@ -2,12 +2,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LoginPage from "./pages/LoginPage"
 import { DashboardPage } from "./pages/DashboardPage"
 import { useEffect, useState } from "react"
-import { AddUser, UserList } from '../src/pages/HotspotPage';
+import { Whitelist, AddList } from "./pages/Whitelisting"
+import { UserList, AddUser } from "./pages/Hotspot"
 import NewSidebar from "./components/NewSidebar";
-import ProfileList from "./pages/User Profile Pages/ProfileList";
-import AddProfile from "./pages/User Profile Pages/AddProfile";
-import Whitelist from "./pages/Website Pages/Whitelist";
-import Addlist from "./pages/Website Pages/Addlist";
+import { ProfileList, AddProfile } from "./pages/UserProfile"
 import { NavBar } from "./components/NavBar";
 const App = () => {
 
@@ -31,7 +29,7 @@ const App = () => {
           <Route path="/profilelist" element={<ProfileList />} />
           <Route path="/addprofile" element={<AddProfile />} />
           <Route path="/whitelist" element={<Whitelist />} />
-          <Route path="/addlist" element={<Addlist />} />
+          <Route path="/addlist" element={<AddList />} />
         </Routes>
       </div>
 
