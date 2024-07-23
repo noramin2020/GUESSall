@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const NewSidebar = () => {
 	return (
-		<Sidebar className='h-screen'>
+		<Sidebar className='h-screen text-black'>
 			<Menu menuItemStyles={{
 				button: {
 					// the active class will be added automatically by react router

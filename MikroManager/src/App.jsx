@@ -17,7 +17,7 @@ const App = () => {
 
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-white">
       <NavBar />
       <div className="flex flex-row">
         <div className="p-3">
