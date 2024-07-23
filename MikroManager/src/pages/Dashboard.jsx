@@ -1,7 +1,7 @@
 import { NavBar } from "../components/NavBar"
-import NewSidebar from "../components/NewSidebar";
-import { Sidebar } from "../components/Sidebar"
-import { AddUser, UserList } from "./HotspotPage"
+// import NewSidebar from "../components/NewSidebar";
+// import { Sidebar } from "../components/Sidebar"
+import { AddUser } from "./Hotspot";
 import { faWifi3 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

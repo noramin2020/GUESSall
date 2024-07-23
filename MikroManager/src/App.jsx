@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import LoginPage from "./pages/LoginPage"
-import { DashboardPage } from "./pages/DashboardPage"
+// import Login from "./pages/Login"
+import { DashboardPage } from "./pages/Dashboard"
 import { useEffect, useState } from "react"
 import { Whitelist, AddList } from "./pages/Whitelisting"
 import { UserList, AddUser } from "./pages/Hotspot"
@@ -12,7 +12,7 @@ const App = () => {
 
   // const token = localStorage.getItem('token');
   // if (!token || undefined) {
-  //   return <LoginPage />
+  //   return <Login />
   // }
 
 
