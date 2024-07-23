@@ -10,25 +10,8 @@ export function DashboardPage() {
 
 
     return (
-        <div>
-            <NavBar />
-            <div>
-                <div className="flex space-x-2 space-y-1">
-                    {/* -------SIDEBAR------- */}
-                    {/* <div className="w-1/7">
-                        <Sidebar />
-                    </div> */}
-
-                    {/* ----------HOME SECTION-------- */}
-                    <div className="w-5/6 border border-customBlue">
-                        <div className="flex bg-customBlue w-full h-15 p-2 items-center space-x-2">
-                            <FontAwesomeIcon icon={faWifi3} color="white" />
-                            <label className="text-white font-bold">Hotspot</label>
-                        </div>
-                        <AddUser />
-                    </div>
-                </div>
-            </div>
+        <div className="w-full mt-5 border rounded-md">
+           
         </div>
     )
 }
