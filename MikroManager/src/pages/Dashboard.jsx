@@ -10,22 +10,34 @@ export function DashboardPage() {
 
 
     return (
-        <div>
-            <NavBar />
-            <div>
-                <div className="flex space-x-2 space-y-1">
-                    {/* -------SIDEBAR------- */}
-                    {/* <div className="w-1/7">
-                        <Sidebar />
-                    </div> */}
+        <div className="flex w-full h-full m-5 border rounded-md bg-white">
 
-                    {/* ----------HOME SECTION-------- */}
-                    <div className="w-5/6 border border-customBlue">
-                        <div className="flex bg-customBlue w-full h-15 p-2 items-center space-x-2">
-                            <FontAwesomeIcon icon={faWifi3} color="white" />
-                            <label className="text-white font-bold">Hotspot</label>
+            <div className="flex p-5 gap-5 w-full">
+                <div className="card w-full shadow-xl">
+                    <div className="card-body bg-[#4dbd74] text-white rounded-md ">
+                        <h2 className="card-title">Active User</h2>
+                        <p>Number of Active user: 8</p>
+                        <div className="card-actions justify-end">
+                            <button className="px-5 py-2 rounded md bg-white text-black hover:scale-95 duration-300">Show</button>
                         </div>
-                        <AddUser />
+                    </div>
+                </div>
+                <div className="card w-full shadow-xl">
+                    <div className="card-body bg-[#f86c6b] text-white rounded-md ">
+                        <h2 className="card-title">User</h2>
+                        <p>Number of User: 128</p>
+                        <div className="card-actions justify-end">
+                            <button className="px-5 py-2 rounded md bg-white text-black hover:scale-95 duration-300">Show</button>
+                        </div>
+                    </div>
+                </div>
+                <div className="card w-full shadow-xl">
+                    <div className="card-body bg-customBlue text-white rounded-md ">
+                        <h2 className="card-title">Add Whitelist</h2>
+                        <p>Number of Whitelist: 5</p>
+                        <div className="card-actions justify-end">
+                            <button className="px-5 py-2 rounded md bg-white text-black hover:scale-95 duration-300">+ Add whitelist</button>
+                        </div>
                     </div>
                 </div>
             </div>

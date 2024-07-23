@@ -17,13 +17,15 @@ const App = () => {
 
 
   return (
-    <div className="wrapper">
+    <div className="w-full bg-white">
       <NavBar />
       <div className="flex flex-row">
-        <NewSidebar />
+        <div className="p-3">
+          <NewSidebar />
+        </div>
         <Routes>
           {/* <Route path="/" element={<LoginPage />} /> */}
-          <Route path="/" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/userlist" element={<UserList />} />
           <Route path="/adduser" element={<AddUser />} />
           <Route path="/profilelist" element={<ProfileList />} />
