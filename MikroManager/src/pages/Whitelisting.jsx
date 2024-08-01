@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import DataTable from "react-data-table-component"
 import axios from 'axios';
 
+
+
 export function Whitelist() {
 	const [whitelist, setWhitelist] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -29,10 +31,21 @@ export function Whitelist() {
 				const response = await axios.post('http://localhost:5000/whitelist/list', body);
 				console.log('Whitelist Data:', response.data);
 
+				// Create a map to filter out redundant addresses
+				const addressMap = new Map();
+
+				response.data.data.forEach(entry => {
+					if (!addressMap.has(entry.address) && entry.comment == null) {
+						addressMap.set(entry.address, entry);
+					}
+				});
+
 				// Format the data to include only the fields you want
-				const formattedData = response.data.data.map(entry => ({
-					name: entry.name.replace('allow-', ''), // Format name to remove prefix
-					regexp: entry.regexp, // Display regexp if needed
+				const formattedData = Array.from(addressMap.values()).map(entry => ({
+					address: entry.address,
+					list: entry.list,
+					creationTime: entry['creation-time'],
+					comment: entry.comment || '',
 				}));
 
 				setWhitelist(formattedData);
@@ -46,20 +59,21 @@ export function Whitelist() {
 
 		fetchWhitelist();
 	}, []);
-
-	if (loading) {
-		return <div>Loading...</div>;
-	}
-
-	if (error) {
-		return <div>Error: {error}</div>;
-	}
-
 	// Define the columns configuration
 	const columns = [
 		{
-			name: 'Name',
-			selector: row => row.name,
+			name: 'Address',
+			selector: row => row.address,
+			sortable: true,
+		},
+		{
+			name: 'List',
+			selector: row => row.list,
+			sortable: true,
+		},
+		{
+			name: 'Creation Time',
+			selector: row => row.creationTime,
 			sortable: true,
 		},
 	];

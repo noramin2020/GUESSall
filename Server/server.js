@@ -175,6 +175,12 @@ app.post('/user/active', (req, res) => {
 
 app.post('/whitelist/add', (req, res) => {
    const { host, user, password, website } = req.body;
+
+   // Check if all required fields are present
+   if (!host || !user || !password || !website) {
+      return res.status(400).json({ message: 'Host, user, password, and website are required' });
+   }
+
    const clientRosRest = rosRest({
       host: host,
       user: user,
@@ -183,39 +189,21 @@ app.post('/whitelist/add', (req, res) => {
       secure: false, // default false
    });
 
-   // Create Layer 7 protocol for the website
+   // Add the website to the address list 'Allowed Websites'
    clientRosRest
-      .add('ip/firewall/layer7-protocol', {
-         name: `allow-${website}`,
-         regexp: `^.+(${website}).*$`,
+      .add('ip/firewall/address-list', {
+         address: website,
+         list: 'Allowed Websites',
       })
       .then((response) => {
          if (response.data) {
-            // Create firewall filter rule to allow traffic for the website
-            clientRosRest
-               .add('ip/firewall/filter', {
-                  chain: 'forward',
-                  'src-address': '10.0.0.0/24',
-                  'layer7-protocol': `allow-${website}`,
-                  action: 'accept',
-               })
-               .then((response) => {
-                  if (response.data) {
-                     res.status(200).json({ message: 'Whitelist entry added successfully', data: response.data });
-                  } else {
-                     res.status(401).json({ message: 'Failed to add whitelist entry' });
-                  }
-               })
-               .catch((err) => {
-                  console.log('error:', err);
-                  res.status(500).json({ error: err.message });
-               });
+            res.status(200).json({ message: 'Whitelist entry added successfully', data: response.data });
          } else {
-            res.status(401).json({ message: 'Failed to create Layer 7 protocol' });
+            res.status(401).json({ message: 'Failed to add whitelist entry' });
          }
       })
       .catch((err) => {
-         console.log('error:', err);
+         console.error('Error:', err);
          res.status(500).json({ error: err.message });
       });
 });
@@ -238,14 +226,14 @@ app.post('/whitelist/list', (req, res) => {
    });
 
    clientRosRest
-      .print('ip/firewall/layer7-protocol')
+      .print('ip/firewall/address-list')
       .then((response) => {
          if (response.data) {
             // Log the response data for debugging
-            // console.log('Layer 7 Protocols:', response.data);
+            // console.log('Address Lists:', response.data);
 
             // Filter out the whitelist entries based on naming convention
-            const whitelistedWebsites = response.data.filter(entry => entry.name.startsWith('allow-'));
+            const whitelistedWebsites = response.data;
 
             // Return the filtered whitelist entries
             res.status(200).json({ message: 'Whitelist retrieved successfully', data: whitelistedWebsites });

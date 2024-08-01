@@ -156,7 +156,7 @@ export function AddUser() {
 	};
 
 	return (
-		<div className="w-2/4 p-10">
+		<div className="w-1/2 p-10 mx-auto">
 			<form className="flex flex-col border m-2 p-2 " onSubmit={handleSubmit}>
 				<h1 className="font-semibold bg-customBlue text-white text-center p-2">Add User</h1>
 				<div className="w-full">
