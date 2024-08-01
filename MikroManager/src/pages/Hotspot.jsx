@@ -76,7 +76,7 @@ export function AddUser() {
 	const [name, setName] = useState('');
 	const [password, setPassword] = useState('');
 	const [profile, setProfile] = useState('');
-	
+
 	const [profiles, setProfiles] = useState([]);
 
 	// Fetch profiles from the server
@@ -124,7 +124,7 @@ export function AddUser() {
 				alert('User added successfully');
 				setName('');
 				setProfile('');
-			
+
 				setPassword('');  // Clear password field after successful submission
 			} else {
 				alert('Failed to add user');
@@ -137,9 +137,9 @@ export function AddUser() {
 
 	return (
 		<div className="w-2/4 p-10">
-			<form className="flex flex-col border m-2 p-2" onSubmit={handleSubmit}>
+			<form className="flex flex-col border m-2 p-2 " onSubmit={handleSubmit}>
 				<h1 className="font-semibold bg-customBlue text-white text-center p-2">Add User</h1>
-				<div className="w-1/2">
+				<div className="w-full">
 					<div className="flex m-2 p-2">
 						<h2 className="p-1">Name</h2>
 						<input
@@ -158,10 +158,10 @@ export function AddUser() {
 							onChange={(e) => setPassword(e.target.value)}
 						/>
 					</div>
-					<div className="flex m-2 px-2">
+					<div className="flex m-2 px-2 w-full">
 						<h2 className="p-1">Profile</h2>
 						<select
-							className="border bg-transparent rounded-md"
+							className="border bg-transparent rounded-md "
 							value={profile}
 							onChange={(e) => setProfile(e.target.value)}
 						>
@@ -171,7 +171,7 @@ export function AddUser() {
 							))}
 						</select>
 					</div>
-			
+
 				</div>
 				<button
 					className="flex border w-36 mx-10 p-1 mt-2 justify-center rounded-md bg-customBlue text-white self-center"
