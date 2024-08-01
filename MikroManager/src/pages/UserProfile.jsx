@@ -30,11 +30,22 @@ export function ProfileList() {
 
 	useEffect(() => {
 		const fetchData = async () => {
+
+			const host = localStorage.getItem('host'); // Assuming these are strings
+			const user = localStorage.getItem('username');
+			const pass = localStorage.getItem('password');
+	
+			if (!host || !user || !pass) {
+				console.error('Missing credentials in local storage');
+				return;
+			}
+	
 			const body = {
-				host: "192.168.90.1",
-				user: "admin",
-				password: "admin",
+				host: host,
+				user: user,
+				password: pass,
 			};
+	
 
 			try {
 				const response = await axios.post("http://localhost:5000/profile/list", body);
@@ -102,12 +113,21 @@ export function AddProfile() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
+		const host = localStorage.getItem('host'); // Assuming these are strings
+		const user = localStorage.getItem('username');
+		const pass = localStorage.getItem('password');
+
+		if (!host || !user || !pass) {
+			console.error('Missing credentials in local storage');
+			return;
+		}
+
 		const body = {
-			host: "192.168.90.1", // Replace with appropriate values if needed
-			user: "admin",
-			password: "admin",
+			host: host,
+			user: user,
+			password: pass,
 			name: name,
-			rateLimit: rateLimit,
+			rateLimit: rateLimit,  // Include password in the request body
 		};
 
 		try {

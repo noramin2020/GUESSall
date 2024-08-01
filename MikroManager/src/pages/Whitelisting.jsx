@@ -9,11 +9,21 @@ export function Whitelist() {
 
 	useEffect(() => {
 		const fetchWhitelist = async () => {
+			const host = localStorage.getItem('host'); // Assuming these are strings
+			const user = localStorage.getItem('username');
+			const pass = localStorage.getItem('password');
+	
+			if (!host || !user || !pass) {
+				console.error('Missing credentials in local storage');
+				return;
+			}
+	
 			const body = {
-				host: '192.168.90.1',
-				user: 'admin',
-				password: 'admin',
+				host: host,
+				user: user,
+				password: pass,
 			};
+	
 
 			try {
 				const response = await axios.post('http://localhost:5000/whitelist/list', body);
@@ -75,10 +85,20 @@ export function AddList() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		
+
+		const host = localStorage.getItem('host'); // Assuming these are strings
+		const user = localStorage.getItem('username');
+		const pass = localStorage.getItem('password');
+
+		if (!host || !user || !pass) {
+			console.error('Missing credentials in local storage');
+			return;
+		}
+
 		const requestBody = {
-			host,
-			user,
-			password,
+			host: host,
+			user: user,
+			password: pass,
 			website,
 		};
 
@@ -109,33 +129,6 @@ export function AddList() {
 			<form className="flex flex-col border m-2 p-2" onSubmit={handleSubmit}>
 				<h1 className="font-semibold bg-customBlue text-white text-center p-2">Add Whitelist</h1>
 				<div className="w-1/2">
-					<div className="flex m-2 p-2">
-						<h2 className="p-1">Host</h2>
-						<input
-							className="border bg-transparent rounded-md"
-							type="text"
-							value={host}
-							onChange={(e) => setHost(e.target.value)}
-						/>
-					</div>
-					<div className="flex m-2 p-2">
-						<h2 className="p-1">User</h2>
-						<input
-							className="border bg-transparent rounded-md"
-							type="text"
-							value={user}
-							onChange={(e) => setUser(e.target.value)}
-						/>
-					</div>
-					<div className="flex m-2 p-2">
-						<h2 className="p-1">Password</h2>
-						<input
-							className="border bg-transparent rounded-md"
-							type="password"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-					</div>
 					<div className="flex m-2 p-2">
 						<h2 className="p-1">Website</h2>
 						<input

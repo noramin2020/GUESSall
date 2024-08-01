@@ -19,7 +19,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white overflow-hidden">
       {isAuthenticated && <NavBar />}
 
       <div className="flex flex-row">

@@ -38,12 +38,16 @@ const LoginPage = () => {
 
 				setAlertContent(response.token);
 				localStorage.setItem('token', response.token);
+				localStorage.setItem('host', host);
+				localStorage.setItem('username', username);
+				localStorage.setItem('password', password);
 				setTimeout(() => {
 					navigate("/dashboard");
 					window.location.reload();
 					setIsLoading(false);
 				}, 2000)
 			}
+			setIsLoading(false);
 		} catch (error) {
 			setIsLoading(false);
 			setAlertContent("Incorrect Credentials");
