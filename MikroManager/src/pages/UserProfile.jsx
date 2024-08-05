@@ -1,76 +1,100 @@
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import axios from 'axios';
-const columns = [
-	{
-		name: 'Name',
-		selector: row => row.name,
-	},
-	{
-		name: 'Rate Limit (rx/tx)',
-		selector: row => row.rl,
-	},
-];
-
-const data = [
-	{
-		id: 1,
-		name: 'Faculty Profile',
-		rl: '10M/10M',
-	},
-	{
-		id: 2,
-		name: 'Student Profile',
-		rl: '5M/5M',
-	},
-]
 
 export function ProfileList() {
 	const [data, setData] = useState([]);
+	const [editData, setEditData] = useState(null); // State to hold the profile being edited
 
-	useEffect(() => {
-		const fetchData = async () => {
+	const fetchData = async () => {
+		const host = localStorage.getItem('host');
+		const user = localStorage.getItem('username');
+		const pass = localStorage.getItem('password');
 
-			const host = localStorage.getItem('host'); // Assuming these are strings
-			const user = localStorage.getItem('username');
-			const pass = localStorage.getItem('password');
-	
-			if (!host || !user || !pass) {
-				console.error('Missing credentials in local storage');
-				return;
-			}
-	
-			const body = {
-				host: host,
-				user: user,
-				password: pass,
-			};
-	
+		if (!host || !user || !pass) {
+			console.error('Missing credentials in local storage');
+			return;
+		}
 
-			try {
-				const response = await axios.post("http://localhost:5000/profile/list", body);
-				console.log("data:", response.data);
-
-				// Format the data to include only the fields you want
-				const formattedData = response.data.data.map(item => ({
-					id: item[".id"],
-					name: item.name,
-					sharedUsers: item["shared-users"],
-					rateLimit: item["rate-limit"] || 'N/A' // If rate-limit is missing, set it to 'N/A'
-				}));
-
-				setData(formattedData);
-			} catch (error) {
-				console.error('Error:', error);
-			} finally {
-				console.log('Request Completed');
-			}
+		const body = {
+			host: host,
+			user: user,
+			password: pass,
 		};
 
+		try {
+			const response = await axios.post("http://localhost:5000/profile/list", body);
+			console.log("data:", response.data);
+
+			const formattedData = response.data.data.map(item => ({
+				id: item[".id"],
+				name: item.name,
+				sharedUsers: item["shared-users"],
+				rateLimit: item["rate-limit"] || 'N/A',
+			}));
+
+			setData(formattedData);
+		} catch (error) {
+			console.error('Error:', error);
+		} finally {
+			console.log('Request Completed');
+		}
+	};
+
+	useEffect(() => {
 		fetchData();
 	}, []);
 
-	// Define the columns configuration
+	const handleDelete = async (id) => {
+		const host = localStorage.getItem('host');
+		const user = localStorage.getItem('username');
+		const pass = localStorage.getItem('password');
+
+		const body = {
+			host: host,
+			user: user,
+			password: pass,
+			profileId: id,
+		};
+
+		try {
+			await axios.post("http://localhost:5000/profile/delete", body);
+			fetchData();
+		} catch (error) {
+			console.error('Error:', error);
+		}
+	};
+
+	const handleEdit = (profile) => {
+		setEditData(profile); // Set the profile to be edited
+	};
+
+	const handleUpdate = async (e) => {
+		e.preventDefault();
+		const { id, name, rateLimit } = editData;
+
+		const host = localStorage.getItem('host');
+		const user = localStorage.getItem('username');
+		const pass = localStorage.getItem('password');
+
+		const body = {
+			host: host,
+			user: user,
+			password: pass,
+			profileId: id,
+			name: name,
+			rateLimit: rateLimit,
+		};
+
+		try {
+			await axios.post("http://localhost:5000/profile/update", body);
+			fetchData();
+			setEditData(null); // Clear the edit state
+		} catch (error) {
+			console.error('Error:', error);
+		}
+	};
+
 	const columns = [
 		{
 			name: 'ID',
@@ -92,6 +116,15 @@ export function ProfileList() {
 			selector: row => row.rateLimit,
 			sortable: true,
 		},
+		{
+			name: 'Actions',
+			cell: row => (
+				<>
+					<button onClick={() => handleEdit(row)}>Update</button> |
+					<button onClick={() => handleDelete(row.id)} className="text-red-600">Delete</button>
+				</>
+			),
+		},
 	];
 
 	return (
@@ -102,9 +135,43 @@ export function ProfileList() {
 				data={data}
 				className="border mt-2 rounded-md"
 			/>
+			{editData && (
+				<div className="w-2/4 p-10">
+					<form className="flex flex-col border m-2 p-2" onSubmit={handleUpdate}>
+						<h1 className="font-semibold bg-customBlue text-white text-center p-2">Update Profile</h1>
+						<div className="w-1/2">
+							<div className="flex m-2 p-2">
+								<h2 className="p-1">Name</h2>
+								<input
+									className="border bg-transparent rounded-md"
+									type="text"
+									value={editData.name}
+									onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+								/>
+							</div>
+							<div className="flex m-2 px-2">
+								<h2 className="p-1 whitespace-pre">Rate Limit (rx/tx)</h2>
+								<input
+									className="border bg-transparent rounded-md"
+									type="text"
+									value={editData.rateLimit}
+									onChange={(e) => setEditData({ ...editData, rateLimit: e.target.value })}
+								/>
+							</div>
+						</div>
+						<button
+							className="flex border w-36 mx-10 p-1 mt-2 justify-center rounded-md bg-customBlue text-white self-center"
+							type="submit"
+						>
+							Update
+						</button>
+					</form>
+				</div>
+			)}
 		</div>
 	);
 }
+
 
 export function AddProfile() {
 	const [name, setName] = useState('');

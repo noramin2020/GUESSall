@@ -23,7 +23,7 @@ app.post("/login", (req, res) => {
       .print('system/resource')
       .then((response) => {
          if (response.data) {
-            res.send({ token: '5080e0c520f2c7b8e0b3679915d53155'})
+            res.send({ token: '5080e0c520f2c7b8e0b3679915d53155' })
             // console.log('success');
          } else {
             res.status(401).json({ message: 'Authentication Failed' })
@@ -90,7 +90,61 @@ app.post("/profile/add", (req, res) => {
       });
 });
 
-// --USER--
+app.post("/profile/delete", (req, res) => {
+   const { host, user, password, profileId } = req.body;
+   const clientRosRest = rosRest({
+      host: host,
+      user: user,
+      password: password,
+      port: 443,
+      secure: false,
+   });
+
+   clientRosRest
+      .remove(`/ip/hotspot/user/profile/${profileId}`)
+      .then(() => {
+         res.status(200).json({ message: 'Profile deleted successfully' });
+      })
+      .catch((err) => {
+         console.log('error:', err);
+         res.status(500).json({ error: err.message });
+      });
+});
+
+app.post("/profile/update", (req, res) => {
+   const { host, user, password, profileId, name, rateLimit } = req.body;
+   const clientRosRest = rosRest({
+      host: host,
+      user: user,
+      password: password,
+      port: 443,
+      secure: false,
+   });
+
+   const updateData = {};
+   if (name) updateData.name = name;
+   if (rateLimit) updateData["rate-limit"] = rateLimit;
+
+   clientRosRest
+      .set(`/ip/hotspot/user/profile/${profileId}`, updateData)
+      .then((response) => {
+         if (response.data) {
+            res.status(200).json({ message: 'Profile updated successfully', data: response.data })
+         } else {
+            res.status(401).json({ message: 'Authentication Failed' })
+         }
+      })
+      .catch((err) => {
+         console.log('error:', err);
+         res.status(500).json({ error: err.message });
+      });
+});
+
+//  -------------------------EMD OF PROFILE-------------------------------
+
+
+
+// ----------------------------USER------------------------------------
 
 app.post("/user/list", (req, res) => {
    const { host, user, password } = req.body;
@@ -146,6 +200,60 @@ app.post('/user/add', (req, res) => {
       });
 });
 
+app.post("/user/delete", (req, res) => {
+   const { host, user, password, userId } = req.body;
+   const clientRosRest = rosRest({
+       host: host,
+       user: user,
+       password: password,
+       port: 443,
+       secure: false,
+   });
+
+   console.log('UserId:', userId);
+   clientRosRest
+       .remove(`/ip/hotspot/user/${userId}`)
+       .then(() => {
+           res.status(200).json({ message: 'User deleted successfully' });
+       })
+       .catch((err) => {
+           console.log('error:', err);
+           res.status(500).json({ error: err.message });
+       });
+});
+
+app.post("/user/update", (req, res) => {
+	const { host, user, password, userId, name, userPassword, profile } = req.body;
+	const clientRosRest = rosRest({
+		host: host,
+		user: user,
+		password: password,
+		port: 443,
+		secure: false,
+	});
+
+	const updateData = {};
+	if (name) updateData.name = name;
+	if (userPassword) updateData.password = userPassword;
+	if (profile) updateData.profile = profile;
+
+	clientRosRest
+		.set(`/ip/hotspot/user/${userId}`, updateData)
+		.then((response) => {
+			if (response.data) {
+				res.status(200).json({ message: 'User updated successfully', data: response.data });
+			} else {
+				res.status(401).json({ message: 'Authentication Failed' });
+			}
+		})
+		.catch((err) => {
+			console.log('error:', err);
+			res.status(500).json({ error: err.message });
+		});
+});
+//  -------------------------EMD OF USER LIST-------------------------------
+
+
 app.post('/user/active', (req, res) => {
    const { host, user, password } = req.body;
    const clientRosRest = rosRest({
@@ -193,7 +301,7 @@ app.post('/whitelist/add', (req, res) => {
    clientRosRest
       .add('ip/firewall/address-list', {
          address: website,
-         list: 'Allowed Websites',
+         list: 'allowed-websites',
       })
       .then((response) => {
          if (response.data) {
