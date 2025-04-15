@@ -7,16 +7,24 @@ import { ProfileList, AddProfile } from "./pages/UserProfile";
 import NewSidebar from "./components/NewSidebar";
 import { NavBar } from "./components/NavBar";
 import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute"; // Import the ProtectedRoute component
+import AboutUsPage from "./pages/AboutUs";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       setIsAuthenticated(true);
     }
+    setIsLoading(false); // Set loading to false after checking the token
   }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Render a loading state while checking authentication
+  }
 
   return (
     <div className="w-full bg-white overflow-hidden">
@@ -29,36 +37,73 @@ const App = () => {
           </div>
         )}
         <Routes>
-          <Route path="/login" element={isAuthenticated ? <></> : <Login />} />
+          <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />} />
           <Route
             path="/dashboard"
-            element={isAuthenticated ? <DashboardPage /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/userlist"
-            element={isAuthenticated ? <UserList /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <UserList />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/adduser"
-            element={isAuthenticated ? <AddUser /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <AddUser />
+              </ProtectedRoute>
+            }
+
           />
           <Route
             path="/profilelist"
-            element={isAuthenticated ? <ProfileList /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <ProfileList />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/addprofile"
-            element={isAuthenticated ? <AddProfile /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <AddProfile />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/whitelist"
-            element={isAuthenticated ? <Whitelist /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Whitelist />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/addlist"
-            element={isAuthenticated ? <AddList /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <AddList />
+              </ProtectedRoute>
+            }
           />
-          <Route path="/" element={<Navigate to={isAuthenticated ? "/login" : "/dashboard"} />} />
+           <Route
+            path="/aboutus"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <AboutUsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
         </Routes>
       </div>
     </div>

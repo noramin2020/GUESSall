@@ -28,6 +28,7 @@ const NewSidebar = () => {
 					<MenuItem component={<Link to="/whitelist" />}> Whitelist </MenuItem>
 					<MenuItem component={<Link to="/addlist" />}> Add list </MenuItem>
 				</SubMenu>
+				<MenuItem component={<Link to="/aboutus" />}> About Us </MenuItem>
 			</Menu>
 		</Sidebar>
 	)

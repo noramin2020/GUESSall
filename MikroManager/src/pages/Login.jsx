@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Image from '../assets/bgGuess.png';
+import guessLogo from '../assets/guess_logo1.png'; // Import the logo image
 
 async function loginUser(credentials) {
 	const { host, username, password } = credentials;
@@ -35,7 +36,6 @@ const LoginPage = () => {
 		try {
 			const response = await loginUser({ host, username, password });
 			if (response.token) {
-
 				setAlertContent(response.token);
 				localStorage.setItem('token', response.token);
 				localStorage.setItem('host', host);
@@ -56,7 +56,12 @@ const LoginPage = () => {
 	};
 
 	return (
-		<div className="text-black flex flex-col justify-center h-screen w-full items-center" style={{ backgroundImage: `url(${Image})` }}>
+		<div className="text-black flex flex-col justify-center h-screen w-full items-center" style={{
+    backgroundImage: `url(${Image})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  }}>
 			{isLoading &&
 				<div className='absolute backdrop-blur-sm h-screen w-screen'>
 					<div className='flex justify-center items-center h-full w-full'>
@@ -64,8 +69,10 @@ const LoginPage = () => {
 					</div>
 				</div>
 			}
-			<form className='flex-col shadow-md rounded-lg justify-between items-center p-5' onSubmit={handleSubmit}>
-				<h1 className="shadow-md bg-customBlue rounded-t-lg p-2 mx-auto my-auto font-bold text-xl text-white tracking-wider px-28 mb-4">Guess Wi-Fi</h1>
+			<form className='flex-col shadow-md rounded-lg justify-between items-center p-5 bg-white' onSubmit={handleSubmit}>
+				<h1 className="flex items-center justify-center bg-customWhite border border-customBlue rounded-t-lg p-2 mx-auto my-auto font-bold text-xl text-white tracking-wider px-28 mb-4">
+					<img src={guessLogo} alt="Guess Logo" className="w-16 h-16 " />
+				</h1>
 				<div className='flex mt-2 justify-center'>
 					<h1> IP MikroTik </h1>
 					<input

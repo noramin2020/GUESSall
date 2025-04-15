@@ -140,6 +140,8 @@ app.post("/profile/update", (req, res) => {
       });
 });
 
+
+
 //  -------------------------EMD OF PROFILE-------------------------------
 
 
@@ -160,9 +162,11 @@ app.post("/user/list", (req, res) => {
       .print('ip/hotspot/user')
       .then((response) => {
          if (response.data) {
-            res.status(200).json({ message: 'Authentication successful', data: response.data })
+            // Count the users
+            const userCount = response.data.length;
+            res.status(200).json({ count: userCount, data: response.data });
          } else {
-            res.status(401).json({ message: 'Authentication Failed' })
+            res.status(401).json({ message: 'Authentication Failed' });
          }
       })
       .catch((err) => {
@@ -170,6 +174,7 @@ app.post("/user/list", (req, res) => {
          res.status(500).json({ error: err.message });
       });
 });
+
 
 app.post('/user/add', (req, res) => {
    const { host, user, adminPassword, name, profile, uptime, password: userPassword } = req.body;
@@ -251,33 +256,35 @@ app.post("/user/update", (req, res) => {
 			res.status(500).json({ error: err.message });
 		});
 });
+
 //  -------------------------EMD OF USER LIST-------------------------------
 
 
-app.post('/user/active', (req, res) => {
+app.post('/active', (req, res) => {
    const { host, user, password } = req.body;
    const clientRosRest = rosRest({
-      host: host,
-      user: user,
-      password: password,
-      port: 443, // default 443
-      secure: false, // default false
+     host: host,
+     user: user,
+     password: password,
+     port: 443,
+     secure: false,
    });
-
+ 
    clientRosRest
-      .print('ip/hotspot/user/active')
-      .then((response) => {
-         if (response.data) {
-            res.status(200).json({ message: 'Success', data: response.data.length });
-         } else {
-            res.status(401).json({ message: 'Failed to fetch active users' });
-         }
-      })
-      .catch((err) => {
-         console.log('error:', err);
-         res.status(500).json({ error: err.message });
-      });
-});
+     .print('ip/hotspot/active')
+     .then((response) => {
+       if (response.data) {
+         res.status(200).json({ message: 'Success', data: response.data });
+       } else {
+         res.status(401).json({ message: 'Failed to fetch active users' });
+       }
+     })
+     .catch((err) => {
+       console.log('error:', err);
+       res.status(500).json({ error: err.message });
+     });
+ });
+ 
 
 // --WHITELIST--
 
@@ -354,6 +361,42 @@ app.post('/whitelist/list', (req, res) => {
          res.status(500).json({ error: 'Internal server error' });
       });
 });
+//delete
+app.post("/whitelist/delete", (req, res) => {
+   const { host, user, password, address } = req.body; // Use 'address' instead of 'userId'
+   const clientRosRest = rosRest({
+       host: host,
+       user: user,
+       password: password,
+       port: 443,
+       secure: false,
+   });
+
+   console.log('Address:', address);
+
+   // Find and remove the website from the address list 'allowed-websites'
+   clientRosRest
+       .print('ip/firewall/address-list')
+       .then((response) => {
+           const addresses = response.data;
+           const addressToDelete = addresses.find(entry => entry.address === address);
+
+           if (!addressToDelete) {
+               return res.status(404).json({ message: 'Address not found in the whitelist' });
+           }
+
+           return clientRosRest.remove(`ip/firewall/address-list/${addressToDelete['.id']}`);
+       })
+       .then(() => {
+           res.status(200).json({ message: 'Whitelist entry deleted successfully' });
+       })
+       .catch((err) => {
+           console.log('Error:', err);
+           res.status(500).json({ error: err.message });
+       });
+});
+
+//profile usage
 
 
 
